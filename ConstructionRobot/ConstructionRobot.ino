@@ -1,3 +1,5 @@
+#include <Servo.h>
+
 // Motor 1 = Left
 int motor1pin1 = 8;
 int motor1pin2 = 9;
@@ -9,7 +11,7 @@ int motor2pin2 = 11;
 int motor2pinEN_PWM = 5;
 
 // Motor PWM value from 0 to 255
-int PWM = 80;
+int PWM = 65;
 
 // IR Sensor
 int IR1pin = 39; // IR1 = left
@@ -17,6 +19,10 @@ int IR2pin = 37; // IR2 = right
 
 // Sensor Input Variables
 bool IR1TouchesBlack, IR2TouchesBlack;
+
+// Servo pin
+Servo mg995_servo;
+int servopin = 13;
 
 void setup() {
   //Motor PIN CONFIG
@@ -31,7 +37,10 @@ void setup() {
   pinMode(IR1pin, INPUT);
   pinMode(IR2pin, INPUT);
 
-//  Serial.begin(9600);
+  //Servo
+  mg995_servo.attach(servopin);
+
+  // Serial.begin(9600);
 }
 
 void loop() {
@@ -50,7 +59,14 @@ void loop() {
       moveRight();
     }
     else {
+      // Serial.println("Idle");
       idle();
+      mg995_servo.write(0);
+      delay(500);
+      mg995_servo.write(45);
+      delay(4000);
+      mg995_servo.write(0);
+      delay(500);
     }
 }
 
